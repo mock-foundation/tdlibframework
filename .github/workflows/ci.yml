@@ -3,7 +3,7 @@ name: CI
 # Controls when the workflow will run
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - "td" # on TDLib updates
 
@@ -1111,7 +1111,7 @@ jobs:
           python3 scripts/swift_package_generator.py "${{ env.RELEASES_DOWNLOAD_URL }}/${{ env.RELEASE_TAG }}/${{ env.ARTIFACT_NAME }}" ${{ env.ARTIFACT_CHECKSUM }}
           git add Package.swift || true
           git commit -m "[no ci] Bump tdlib ${{ env.RELEASE_TAG }}" || true
-          git push origin main || true
+          git push origin master || true
 
       - name: Remove previous release
         uses: dev-drprasad/delete-tag-and-release@85fa8bcea0379a6ada9bbfdcb0a9d24d58e1a0d7
@@ -1124,7 +1124,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@9729932bfb75c05ad1f6e3a729294e05abaa7001
         with:
-          target_commitish: main
+          target_commitish: master
           tag_name: ${{ env.RELEASE_TAG }}
           files: ${{ env.ARTIFACT_PATH }}
           body: "XCFramework based on TDLib-${{ env.TDLIB_VERSION }} commit [${{ env.TDLIB_COMMIT }}](${{ env.TDLIB_COMMIT_URL }})\n\nZIP Checksum `${{ env.ARTIFACT_CHECKSUM }}`"
